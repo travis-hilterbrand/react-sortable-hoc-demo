@@ -1,26 +1,40 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react';
+import { sortableContainer, sortableElement, arrayMove } from 'react-sortable-hoc';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import './App.css'
+
+const SortableItem = sortableElement(({ value }) => <li>{value}</li>);
+
+const SortableContainer = sortableContainer(({ children }) => {
+  return <ul>{children}</ul>;
+});
+
+class App extends Component {
+  state = {
+    items: ['Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5', 'Item 6'],
+  };
+
+  onSortEnd = ({ oldIndex, newIndex }) => {
+    this.setState(({ items }) => ({
+      items: arrayMove(items, oldIndex, newIndex),
+    }));
+  };
+
+  render() {
+    const { items } = this.state;
+
+    return (
+      <div className={'container'}>
+        <div className={'header'} />
+        <SortableContainer onSortEnd={this.onSortEnd} lockAxis={'y'} lockToContainerEdges={true}>
+          {items.map((value, index) => (
+            <SortableItem key={`item-${value}`} index={index} value={value} />
+          ))}
+        </SortableContainer>
+        <div className={'footer'} />
+      </div>
+    );
+  }
 }
 
 export default App;
