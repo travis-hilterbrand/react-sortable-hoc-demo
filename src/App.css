@@ -4,6 +4,7 @@ body {
 
 ul {
   width: 400px;
+  height: 400px;
   overflow: auto;
   position: relative;
   margin: 0;

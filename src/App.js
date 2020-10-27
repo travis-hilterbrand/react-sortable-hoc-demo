@@ -9,9 +9,14 @@ const SortableContainer = sortableContainer(({ children }) => {
   return <ul>{children}</ul>;
 });
 
+const initialItemx = [];
+for (let i = 1; i < 20; i++) {
+  initialItemx.push('Item ' + i);
+}
+
 class App extends Component {
   state = {
-    items: ['Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5', 'Item 6'],
+    items: initialItemx,
   };
 
   onSortEnd = ({ oldIndex, newIndex }) => {
