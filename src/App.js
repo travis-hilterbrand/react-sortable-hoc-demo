@@ -1,9 +1,16 @@
 import React, { Component } from 'react';
-import { sortableContainer, sortableElement, arrayMove } from 'react-sortable-hoc';
+import { sortableContainer, sortableElement, sortableHandle, arrayMove } from 'react-sortable-hoc';
 
 import './App.css'
 
-const SortableItem = sortableElement(({ value }) => <li>{value}</li>);
+const SortableHandle = sortableHandle(() => (<div style={{ height: 30, width: 30, background: 'black', cursor: 'pointer' }} />));
+
+const SortableItem = sortableElement(({ value }) => (
+  <li style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', }}>
+    {value}
+    <SortableHandle />
+  </li>
+));
 
 const SortableContainer = sortableContainer(({ children }) => {
   return <ul>{children}</ul>;
@@ -31,7 +38,8 @@ class App extends Component {
     return (
       <div className={'container'}>
         <div className={'header'} />
-        <SortableContainer onSortEnd={this.onSortEnd} lockAxis={'y'} lockToContainerEdges={true}>
+        <SortableContainer lockAxis={'y'} lockToContainerEdges={true} useDragHandle={true} onSortEnd={this.onSortEnd}
+        >
           {items.map((value, index) => (
             <SortableItem key={`item-${value}`} index={index} value={value} />
           ))}
